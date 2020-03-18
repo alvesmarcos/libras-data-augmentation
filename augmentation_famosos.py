@@ -9,21 +9,21 @@ def augmentation_famosos(line, re_gr, re_gi, famososExamples_gr, famososExamples
     line_gr = line[0]
     line_gi = line[1]
     
-    occurences_gr = re.search(re_gr, line_gr)
-    occurences_gi = re.search(re_gi, line_gi)
+    occurences_gr = re.findall(re_gr, line_gr)
+    occurences_gi = re.findall(re_gi, line_gi)
     
     lista.append((line_gr, line_gi))
-    if occurences_gr and occurences_gi:
+    if occurences_gr != [] and occurences_gi != []:
         for index, (famoso_gr, famoso_gi) in enumerate(list(zip(famososExamples_gr, famososExamples_gi))):
             if index == 50:
                 break 
             
-            if re.search(dict_gr[famoso_gr], line_gr) == None and re.search(dict_gi[famoso_gi], line_gi) == None:
+            if re.search(dict_gr[famoso_gr], line_gr) == None and re.search(dict_gi[famoso_gi], line_gi) == None and len(occurences_gr) == len(occurences_gi):
                 lista.append((re.sub(re_gr, famoso_gr, line_gr, 1), re.sub(re_gi, famoso_gi, line_gi, 1)))
         
         return lista
     
-    return lista            
+    return lista              
 
 df_famosos = pd.read_csv('data/famosos_teste.csv')
 
